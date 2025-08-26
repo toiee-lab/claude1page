@@ -15,7 +15,7 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
 
 1. **リポジトリからクローン**
    ```bash
-   git clone [このリポジトリのURL]
+   git clone https://github.com/toiee-lab/webpage-template-for-cc.git
    cd webpage-template-for-cc
    ```
 
