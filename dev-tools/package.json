@@ -1,0 +1,26 @@
+{
+  "name": "webpage-template-dev-tools",
+  "version": "1.0.0",
+  "description": "Development tools for Claude Code webpage generation",
+  "main": "unsplash-search.js",
+  "type": "module",
+  "scripts": {
+    "search": "node unsplash-search.js"
+  },
+  "dependencies": {
+    "unsplash-js": "^7.0.19",
+    "dotenv": "^16.4.5"
+  },
+  "keywords": [
+    "unsplash",
+    "api",
+    "images",
+    "claude-code",
+    "development-tools"
+  ],
+  "author": "Claude Code",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

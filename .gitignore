@@ -120,12 +120,18 @@ tmp/
 .temp/
 
 # Claude Code specific files (optional)
-.claude/
-claude-output/
+.claude/settings.local.json
 
 # Image optimization cache (if used)
 .image-cache/
 optimized-images/
+
+# Unsplash API related (dev-tools)
+dev-tools/node_modules/
+dev-tools/.env
+dev-tools/unsplash-cache/
+dev-tools/logs/
+dev-tools/package-lock.json
 
 # Backup files
 *.bak

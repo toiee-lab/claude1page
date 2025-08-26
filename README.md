@@ -32,6 +32,31 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
 4. **作る**
    - Claude Code を起動して、Webページの作成を開始してください
 
+5. **Unsplash API設定（オプション）**
+   
+   より高品質な画像を自動で取得したい場合は、Unsplash APIを設定できます：
+   
+   ```bash
+   # 1. 依存関係をインストール
+   cd dev-tools
+   npm install
+   
+   # 2. APIキー設定用のファイルを作成
+   cp ../.env.local.example ../.env.local
+   ```
+   
+   **APIキーの取得方法：**
+   1. [Unsplash Developers](https://unsplash.com/developers) にアクセス
+   2. "Register as a developer" でアカウント登録
+   3. "New Application" で新しいアプリケーションを作成
+   4. Access Key を取得して `.env.local` に設定
+   
+   ```env
+   UNSPLASH_ACCESS_KEY=your_actual_access_key_here
+   ```
+   
+   設定後、Claude Codeは自動的に最適な画像を検索・取得します。
+
 ## ポイント
 
 - **プロンプトファイルの活用**
@@ -39,6 +64,11 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
   
 - **コンテンツの管理**
   - `project-docs` ディレクトリに、コンテンツや画像などを保管して、呼び出すと便利です
+
+- **画像の自動取得**
+  - Unsplash APIを設定すると、Claude Codeが自動で高品質な画像を検索・取得します
+  - 手動で画像を探す手間が省けて、作業効率が大幅に向上します
+  - 取得される画像は最適化済み（WebP形式、適切なサイズ）で、ページの読み込み速度も向上します
 
 ## プロンプト例
 
@@ -58,7 +88,12 @@ webpage-template-for-cc/
 │   ├── index.html      # メインページ
 │   └── assets/         # CSS、JS、画像などの静的ファイル
 ├── project-docs/       # プロジェクト関連ドキュメント
+├── dev-tools/          # 画像検索ツール（オプション）
+│   ├── package.json
+│   ├── unsplash-search.js
+│   └── README.md
 ├── CLAUDE.md          # Claude Code用の指示書
+├── .env.local.example # API設定テンプレート
 └── README.md          # このファイル
 ```
 
