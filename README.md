@@ -38,11 +38,10 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
    
    ```bash
    # 1. 依存関係をインストール
-   cd dev-tools
    npm install
    
    # 2. APIキー設定用のファイルを作成
-   cp ../.env.local.example ../.env.local
+   cp .env.local.example .env.local
    ```
    
    **APIキーの取得方法：**
@@ -55,6 +54,12 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
    UNSPLASH_ACCESS_KEY=your_actual_access_key_here
    ```
    
+   テストは、以下の通りです。
+   
+   ```bash
+   node dev-tools/unsplash-search.js "キーワード"
+   ```
+
    設定後、Claude Codeは自動的に最適な画像を検索・取得します。
 
 ## ポイント

@@ -1,22 +1,21 @@
 {
-  "name": "webpage-template-dev-tools",
+  "name": "webpage-template-for-cc",
   "version": "1.0.0",
-  "description": "Development tools for Claude Code webpage generation",
-  "main": "unsplash-search.js",
+  "description": "Webpage template for Claude Code with Unsplash integration",
   "type": "module",
   "scripts": {
-    "search": "node unsplash-search.js"
+    "search": "node dev-tools/unsplash-search.js"
   },
   "dependencies": {
     "unsplash-js": "^7.0.19",
     "dotenv": "^16.4.5"
   },
   "keywords": [
-    "unsplash",
-    "api",
-    "images",
+    "webpage",
+    "template",
     "claude-code",
-    "development-tools"
+    "unsplash",
+    "tailwind"
   ],
   "author": "Claude Code",
   "license": "MIT",
