@@ -1,4 +1,4 @@
-# Webpage Template for Claude Code
+# Claude1page
 
 Claude Code を使って、シンプルで、モダンで、美しい、ワンページで完結するWebページを作るためのスターターキットです。Netlifyで簡単に公開できるように設計されています。
 
@@ -15,8 +15,9 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
 
 1. **リポジトリからクローン**
    ```bash
-   git clone https://github.com/toiee-lab/webpage-template-for-cc.git
-   cd webpage-template-for-cc
+   mkdir project-name
+   cd project-name
+   git clone https://github.com/toiee-lab/claude1page.git .
    ```
 
 2. **.git ディレクトリを削除**
