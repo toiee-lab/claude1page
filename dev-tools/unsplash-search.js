@@ -170,7 +170,12 @@ async function main() {
 }
 
 // スクリプトが直接実行された場合のみmain()を呼び出し
-if (import.meta.url === `file://${process.argv[1]}`) {
+// ESモジュールでの実行判定（より確実な方法）
+const isMainModule = import.meta.url === new URL(process.argv[1], 'file:').href ||
+                     import.meta.url.endsWith(process.argv[1]) ||
+                     process.argv[1]?.includes('unsplash-search.js');
+
+if (isMainModule) {
   main();
 }
 
