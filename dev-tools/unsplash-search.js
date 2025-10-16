@@ -9,8 +9,11 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// プロジェクトルートの.env.localを読み込む
-config({ path: join(__dirname, '..', '.env.local') });
+// 環境変数が設定されていない場合のみ .env.local を読み込む
+// システム環境変数を優先、なければ .env.local から読み込む
+if (!process.env.UNSPLASH_ACCESS_KEY) {
+  config({ path: join(__dirname, '..', '.env.local') });
+}
 
 /**
  * Unsplash画像検索クラス
