@@ -1,3 +1,0 @@
-[build]
-  # Netlifyで公開するディレクトリを指定
-  publish = "public"

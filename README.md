@@ -1,6 +1,13 @@
 # Claude1page
 
-Claude Code を使って、シンプルで、モダンで、美しい、ワンページで完結するWebページを作るためのスターターキットです。Netlifyで簡単に公開できるように設計されています。
+Claude Code を使って、シンプルで、モダンで、美しい、ワンページで完結するWebページを作るためのスターターキットです。Cloudflare Pagesで簡単に公開できるように設計されています。
+
+## 更新履歴
+
+- 2025年 10月 27日:
+  - `.rgignore` を使って、prompt.md などを検索対象除外から除外（これで、Claude Code で @ で指定できるようになった）
+  - README.md を Cloudflareの説明などに変更（Unsplashの設定も推奨に設定、環境変数対応についても記載など）
+
 
 ## 必要なもの
 
@@ -10,6 +17,8 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
   - Prettier - Code formatter
   - Auto Rename Tag
 - **Claude Code の事前インストール**
+
+あるいは、Cloude Code on the Web でも利用可能（工夫が必要になりますが）
 
 ## 準備
 
@@ -26,16 +35,10 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
    git init
    ```
 
-3. **CLAUDE.md を書き換える**
-   - プロジェクトの内容に合わせて `CLAUDE.md` を編集してください
-   - あなたのWebサイトの概要や要件を記載してください
-
-4. **作る**
-   - Claude Code を起動して、Webページの作成を開始してください
-
-5. **Unsplash API設定（オプション）**
+3. **Unsplash API設定**
    
-   より高品質な画像を自動で取得したい場合は、Unsplash APIを設定できます：
+   高品質な画像を検索し、Webページに自動設定するために、Unsplash の API キーの設定を強く推奨します。
+   APIキーは、以下のように、 `.env.local` ファイルに設定しても良いですし、環境変数に設定しても良いです。
    
    ```bash
    # 1. 依存関係をインストール
@@ -44,7 +47,7 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
    # 2. APIキー設定用のファイルを作成
    cp .env.local.example .env.local
    ```
-   
+
    **APIキーの取得方法：**
    1. [Unsplash Developers](https://unsplash.com/developers) にアクセス
    2. "Register as a developer" でアカウント登録
@@ -54,14 +57,17 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
    ```env
    UNSPLASH_ACCESS_KEY=your_actual_access_key_here
    ```
-   
+
    テストは、以下の通りです。
    
    ```bash
    node dev-tools/unsplash-search.js "キーワード"
    ```
 
-   設定後、Claude Codeは自動的に最適な画像を検索・取得します。
+
+4. **作る**
+   - Claude Code を起動して、Webページの作成を開始してください
+
 
 ## ポイント
 
@@ -103,12 +109,16 @@ webpage-template-for-cc/
 └── README.md          # このファイル
 ```
 
-## Netlifyでの公開
+## Cloudflare Pagesでの公開
 
-1. Netlifyにログイン
-2. 「New site from Git」を選択
-3. このリポジトリを選択
-4. Publish directory を `public` に設定
-5. Deploy
+1. Cloudflareにログイン
+2. コンピューティングとAI > Workers & Pages を選択
+3. アプリケーションを作成 > Pagesタブ をクリック
+4. 既存のGitリポジトリをインポートするを選び、リポジトリを選ぶ
+5. 公開フォルダに、 `public` を設定する
+6. Deploy
+7. その後、必要に応じて、カスタムドメインなどを設定する
 
-これで、あなたの美しいワンページWebサイトが公開されます！
+※ Cloudflare でドメインを管理すれば、すごく簡単にできるようになります
+
+
