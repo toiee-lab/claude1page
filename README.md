@@ -11,14 +11,14 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
 
 ## 必要なもの
 
+- **Claude Code の事前インストール**
 - **Visual Studio Code**
 - **おすすめの拡張機能**
+	- Claude Code
   - Live Server
   - Prettier - Code formatter
-  - Auto Rename Tag
-- **Claude Code の事前インストール**
 
-あるいは、Cloude Code on the Web でも利用可能（工夫が必要になりますが）
+あるいは、Cloude Code on the Web でも利用可能です。
 
 ## 準備
 
@@ -29,37 +29,46 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
    git clone https://github.com/toiee-lab/claude1page.git .
    ```
 
-2. **.git ディレクトリを削除**
+2. **リポジトリの初期化**
    ```bash
    rm -rf .git
    git init
    ```
 
 3. **Unsplash API設定**
-   
-   高品質な画像を検索し、Webページに自動設定するために、Unsplash の API キーの設定を強く推奨します。
-   APIキーは、以下のように、 `.env.local` ファイルに設定しても良いですし、環境変数に設定しても良いです。
-   
-   ```bash
-   # 1. 依存関係をインストール
-   npm install
-   
-   # 2. APIキー設定用のファイルを作成
-   cp .env.local.example .env.local
-   ```
+
+   高品質な画像を検索し、Webページに自動設定するために、Unsplash の **API キーの設定を強く推奨します** 。
 
    **APIキーの取得方法：**
    1. [Unsplash Developers](https://unsplash.com/developers) にアクセス
    2. "Register as a developer" でアカウント登録
    3. "New Application" で新しいアプリケーションを作成
-   4. Access Key を取得して `.env.local` に設定
-   
-   ```env
-   UNSPLASH_ACCESS_KEY=your_actual_access_key_here
+   4. Access Key を取得
+
+   APIキーは、以下のように、 `.env.local` ファイルに設定しても良いですし、環境変数に設定しても良いです。環境変数に設定した方が、他のプロジェクトでも設定不要になるので、環境変数への設定をお勧めします。
+
+   まず、必要なライブラリをインストールします（忘れずに！）
+   ```bash
+   npm install
    ```
 
+   環境変数に設定する場合は、以下のようなコマンド（here-is-your-keyを書き換えた上で）を実行します。
+
+   macOSの場合
+   ```zsh
+   echo 'export UNSPLASH_ACCESS_KEY=here-is-your-key' >> ~/.zshrc && source ~/.zshrc
+   ```
+
+   Windowsの場合（PowerShellで実行）
+   ```powershell
+   if (!(Test-Path $PROFILE)) { New-Item -Path $PROFILE -ItemType File -Force }; Add-Content -Path $PROFILE -Value '$env:UNSPLASH_ACCESS_KEY="here-is-your-key"'; . $PROFILE
+   ```
+
+   あるいは、APIキー設定用のファイルを作成し、中身を編集してください。見ればわかります。
+   cp .env.local.example .env.local
+
    テストは、以下の通りです。
-   
+
    ```bash
    node dev-tools/unsplash-search.js "キーワード"
    ```
@@ -73,9 +82,10 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
 
 - **プロンプトファイルの活用**
   - `prompt.md` や `prompt2.md` などのファイルを作って、プロンプトを書いてコピペすると便利です（gitに保存されません）
-  
+  - あるいは、 prompt.md にプロンプトを書き込み、保存し、 `@prompt.md` で呼び出しても良いです
+
 - **コンテンツの管理**
-  - `project-docs` ディレクトリに、コンテンツや画像などを保管して、呼び出すと便利です
+  - `project-docs` ディレクトリに、コンテキストコンテンツなどを保管して、呼び出すと便利です
 
 - **画像の自動取得**
   - Unsplash APIを設定すると、Claude Codeが自動で高品質な画像を検索・取得します
@@ -85,11 +95,15 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
 ## プロンプト例
 
 ```
-シンプルで美しいコーポレートサイトを作成してください。
-- 会社名: 〇〇株式会社
-- 事業内容: Webマーケティング支援
-- 色: ブルー系
-- セクション: Hero、About、Services、Contact
+Webページを作成してください。
+
+- ここにありったけ、情報を書いてください
+- どんなデザインが良いのか？
+- もし、カラーが決まっているなら指定する
+- 誰向けのものなのか？
+- あなたが伝えたいこと、あなたの強み、特徴など
+- お店の名前や、プロダクトについての説明など
+- 難しく考えず、たくさん書いて、あとはClaudeに任せましょう
 ```
 
 ## ファイル構成
@@ -120,5 +134,3 @@ webpage-template-for-cc/
 7. その後、必要に応じて、カスタムドメインなどを設定する
 
 ※ Cloudflare でドメインを管理すれば、すごく簡単にできるようになります
-
-
