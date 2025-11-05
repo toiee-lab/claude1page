@@ -4,6 +4,9 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
 
 ## 更新履歴
 
+- 2025年 11月 5日:
+  - scripts/install_pkg.sh をローカルでは実行しない（Claude Code on the Webでは実行）ように設定
+  - scripts/install_pkg.sh に実行権限を与えるように初期設定のガイドを修正
 - 2025年 10月 27日:
   - `.rgignore` を使って、prompt.md などを検索対象除外から除外（これで、Claude Code で @ で指定できるようになった）
   - README.md を Cloudflareの説明などに変更（Unsplashの設定も推奨に設定、環境変数対応についても記載など）
@@ -23,16 +26,26 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
 ## 準備
 
 1. **リポジトリからクローン**
+      
+   フォルダを作る
    ```bash
    mkdir project-name
+   ```
+   フォルダに移動
+   ```bash
    cd project-name
+   ```
+   
+   フォルダ内でリポジトリをクローン（展開する）
+   ```bash
    git clone https://github.com/toiee-lab/claude1page.git .
    ```
 
-2. **リポジトリの初期化**
+2. **リポジトリの初期化と、セットアップスクリプトの実行権限与える**
    ```bash
    rm -rf .git
    git init
+   chmod +x scripts/install_pkg.sh
    ```
 
 3. **Unsplash API設定**
