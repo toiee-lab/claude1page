@@ -7,6 +7,10 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
 - 2025年 11月 5日:
   - scripts/install_pkg.sh をローカルでは実行しない（Claude Code on the Webでは実行）ように設定
   - scripts/install_pkg.sh に実行権限を与えるように初期設定のガイドを修正
+  - アップデート方法は、以下の通り
+    ```bash
+    curl -o scripts/install_pkgs.sh https://raw.githubusercontent.com/toiee-lab/claude1page/main/scripts/install_pkgs.sh && chmod +x scripts/install_pkgs.sh
+    ```
 - 2025年 10月 27日:
   - `.rgignore` を使って、prompt.md などを検索対象除外から除外（これで、Claude Code で @ で指定できるようになった）
   - README.md を Cloudflareの説明などに変更（Unsplashの設定も推奨に設定、環境変数対応についても記載など）
