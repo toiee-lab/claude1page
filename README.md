@@ -126,7 +126,7 @@ Webページを作成してください。
 ## ファイル構成
 
 ```
-webpage-template-for-cc/
+claude1page/
 ├── public/              # Netlify公開用ディレクトリ
 │   ├── index.html      # メインページ
 │   └── assets/         # CSS、JS、画像などの静的ファイル
