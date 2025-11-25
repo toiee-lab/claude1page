@@ -101,9 +101,8 @@ class UnsplashImageSearch {
    */
   getFallbackImageUrl(query, width, quality) {
     console.log(`🔄 Using fallback image for "${query}"`);
-    // より安定したUnsplash Sourceを使用
-    const fallbackQuery = encodeURIComponent(query.split(' ')[0]); // 最初の単語のみ使用
-    return `https://source.unsplash.com/${width}x${Math.round(width * 0.6)}/?${fallbackQuery}&sig=${Date.now()}`;
+    // source.unsplash.com はサービス停止のため、ダミー画像を使用
+    return 'https://www.claude-webmaster.jp/images/dummy.jpg';
   }
 
   /**
