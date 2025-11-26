@@ -7,8 +7,9 @@
     "search": "node dev-tools/unsplash-search.js"
   },
   "dependencies": {
-    "unsplash-js": "^7.0.19",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "undici": "^7.16.0",
+    "unsplash-js": "^7.0.19"
   },
   "keywords": [
     "webpage",

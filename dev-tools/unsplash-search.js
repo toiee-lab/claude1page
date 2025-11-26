@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { createApi } from 'unsplash-js';
+import { ProxyAgent } from 'undici';
 import { config } from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -21,7 +22,7 @@ if (!process.env.UNSPLASH_ACCESS_KEY) {
 class UnsplashImageSearch {
   constructor() {
     this.accessKey = process.env.UNSPLASH_ACCESS_KEY;
-    
+
     if (!this.accessKey) {
       console.error('❌ Error: UNSPLASH_ACCESS_KEY not found in .env.local');
       console.error('📝 Please create .env.local file with your Unsplash API key');
@@ -29,8 +30,23 @@ class UnsplashImageSearch {
       process.exit(1);
     }
 
+    // プロキシ設定を取得
+    const proxyUrl = process.env.HTTPS_PROXY || process.env.https_proxy ||
+                     process.env.HTTP_PROXY || process.env.http_proxy;
+
+    // カスタムfetchを設定（プロキシサポート付き）
+    const customFetch = proxyUrl
+      ? (url, options) => {
+          return fetch(url, {
+            ...options,
+            dispatcher: new ProxyAgent(proxyUrl)
+          });
+        }
+      : undefined;
+
     this.unsplash = createApi({
       accessKey: this.accessKey,
+      fetch: customFetch,
     });
   }
 
