@@ -7,24 +7,14 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
 - 2025年 11月26日:
   - Claude Code on the Web (Sandbox)では、Unsplashの画像検索ができない問題を解決（Proxyを使うように修正）
   - 画像検索のフォールバックが、フォールバックになっていない（エラーする画像URL）ので、独自で用意したダミー画像URLを指定するようにした（ https://www.claude-webmaster.jp/images/dummy.jpg )
-  - アップデート方法は以下の通り
-    ```bash
-    curl -o package.json  https://raw.githubusercontent.com/toiee-lab/claude1page/main/package.json
-    curl -o dev-tools/unsplash-search.js https://raw.githubusercontent.com/toiee-lab/claude1page/main/dev-tools/unsplash-search.js
-    npm install
-    ```
-
 - 2025年 11月 5日:
   - scripts/install_pkg.sh をローカルでは実行しない（Claude Code on the Webでは実行）ように設定
   - scripts/install_pkg.sh に実行権限を与えるように初期設定のガイドを修正
-  - アップデート方法は、以下の通り
-    ```bash
-    curl -o scripts/install_pkgs.sh https://raw.githubusercontent.com/toiee-lab/claude1page/main/scripts/install_pkgs.sh && chmod +x scripts/install_pkgs.sh
-    ```
 - 2025年 10月 27日:
   - `.rgignore` を使って、prompt.md などを検索対象除外から除外（これで、Claude Code で @ で指定できるようになった）
   - README.md を Cloudflareの説明などに変更（Unsplashの設定も推奨に設定、環境変数対応についても記載など）
 
+**アップデート方法は、末尾をご覧ください**
 
 ## 必要なもの
 
@@ -161,3 +151,28 @@ claude1page/
 7. その後、必要に応じて、カスタムドメインなどを設定する
 
 ※ Cloudflare でドメインを管理すれば、すごく簡単にできるようになります
+
+## アップデート方法
+
+このテンプレートリポジトリから作成した新しいリポジトリには、自動でアップデートはされません（通知も）。
+
+ほとんど、アップデートされることはありませんが、時々、Claude Code の新しい機能に対応させるために、アップデートを行うことがあります。例えば、Claude Code on the Web で動作させたい場合は、アップデートさせる必要があります。手順は、以下の通りです。
+
+### (1) スクリプトを実行
+
+ターミナルを開いて、以下を実行してください。
+
+```bash
+curl -o .claude/settings.json  https://raw.githubusercontent.com/toiee-lab/claude1page/main/.claude/settings.json
+curl -o .rgignore  https://raw.githubusercontent.com/toiee-lab/claude1page/main/.rgignore
+curl -o dev-tools/unsplash-search.js  https://raw.githubusercontent.com/toiee-lab/claude1page/main/dev-tools/unsplash-search.js
+curl -o package.json  https://raw.githubusercontent.com/toiee-lab/claude1page/main/package.json
+curl -o package-lock.json  https://raw.githubusercontent.com/toiee-lab/claude1page/main/package-lock.json
+mkdir scripts
+curl -o scripts/install_pkgs.sh  https://raw.githubusercontent.com/toiee-lab/claude1page/main/scripts/install_pkgs.sh
+chmod +x scripts/install_pkgs.sh
+```
+
+### (2) 変更点をチェック
+
+ソースコード管理などで、変更されたファイルをチェックしてください。もし、あなたが意図的に変更したものを上書きしているなら、以前のものと今のものを比較しながら、調整してください。
