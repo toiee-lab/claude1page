@@ -4,6 +4,16 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
 
 ## 更新履歴
 
+- 2025年 11月26日:
+  - Claude Code on the Web (Sandbox)では、Unsplashの画像検索ができない問題を解決（Proxyを使うように修正）
+  - 画像検索のフォールバックが、フォールバックになっていない（エラーする画像URL）ので、独自で用意したダミー画像URLを指定するようにした（ https://www.claude-webmaster.jp/images/dummy.jpg )
+  - アップデート方法は以下の通り
+    ```bash
+    curl -o package.json  https://raw.githubusercontent.com/toiee-lab/claude1page/main/package.json
+    curl -o dev-tools/unsplash-search.js https://raw.githubusercontent.com/toiee-lab/claude1page/main/dev-tools/unsplash-search.js
+    npm install
+    ```
+
 - 2025年 11月 5日:
   - scripts/install_pkg.sh をローカルでは実行しない（Claude Code on the Webでは実行）ように設定
   - scripts/install_pkg.sh に実行権限を与えるように初期設定のガイドを修正
