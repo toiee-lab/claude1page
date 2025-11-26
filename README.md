@@ -173,6 +173,12 @@ curl -o scripts/install_pkgs.sh  https://raw.githubusercontent.com/toiee-lab/cla
 chmod +x scripts/install_pkgs.sh
 ```
 
+最後に、npm パッケージを再インストールします。
+
+```bash
+npm install
+```
+
 ### (2) 変更点をチェック
 
 ソースコード管理などで、変更されたファイルをチェックしてください。もし、あなたが意図的に変更したものを上書きしているなら、以前のものと今のものを比較しながら、調整してください。
