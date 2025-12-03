@@ -127,7 +127,7 @@ Webページを作成してください。
 
 ```
 claude1page/
-├── public/              # Netlify公開用ディレクトリ
+├── public/              # Cloudflare Pages 公開用ディレクトリ
 │   ├── index.html      # メインページ
 │   └── assets/         # CSS、JS、画像などの静的ファイル
 ├── project-docs/       # プロジェクト関連ドキュメント
