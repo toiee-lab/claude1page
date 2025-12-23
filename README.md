@@ -205,13 +205,19 @@ claude1page/
 
 ```bash
 curl -o .claude/settings.json  https://raw.githubusercontent.com/toiee-lab/claude1page/main/.claude/settings.json
+curl -o CLAUDE.md https://raw.githubusercontent.com/toiee-lab/claude1page/main/CLAUDE.md
+curl -o README.md https://raw.githubusercontent.com/toiee-lab/claude1page/main/README.md
 curl -o .rgignore  https://raw.githubusercontent.com/toiee-lab/claude1page/main/.rgignore
 curl -o dev-tools/unsplash-search.js  https://raw.githubusercontent.com/toiee-lab/claude1page/main/dev-tools/unsplash-search.js
 curl -o package.json  https://raw.githubusercontent.com/toiee-lab/claude1page/main/package.json
 curl -o package-lock.json  https://raw.githubusercontent.com/toiee-lab/claude1page/main/package-lock.json
 mkdir scripts
 curl -o scripts/install_pkgs.sh  https://raw.githubusercontent.com/toiee-lab/claude1page/main/scripts/install_pkgs.sh
+curl -o scripts/build-css-prod.sh https://raw.githubusercontent.com/toiee-lab/claude1page/main/scripts/build-css-prod.sh
+curl -o scripts/build-css.sh https://raw.githubusercontent.com/toiee-lab/claude1page/main/scripts/build-css.sh
 chmod +x scripts/install_pkgs.sh
+mkdir src
+curl -o src/input.css https://raw.githubusercontent.com/toiee-lab/claude1page/main/src/input.css
 ```
 
 最後に、npm パッケージを再インストールします。
