@@ -49,7 +49,20 @@
 ### 使用するライブラリ
 
 - Tailwind CSS v4.1 以上を使用し、コード量を減らしつつ、エラーが少ない簡潔なコードを書いてください。
-- Tailwind CSS v4.1 以上は、CDNを使ってください（画像最適化の方が速度に寄与するので、Tailwind CSSの最適化は不要です）
+- **重要**: Tailwind CSS v4は必ず以下の方法でCDNから読み込んでください（画像最適化の方が速度に寄与するので、ビルドプロセスは不要です）：
+  ```html
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  ```
+  - **注意**: v3の`<link>`タグ形式は使用しないでください。v4では`<script>`タグを使用します
+  - カスタムテーマを設定する場合は、`<style type="text/tailwindcss">`内で`@theme`ディレクティブを使用してください：
+  ```html
+  <style type="text/tailwindcss">
+    @theme {
+      --color-primary: #3b82f6;
+      --font-sans: 'Noto Sans JP', sans-serif;
+    }
+  </style>
+  ```
 - Animate.css v4.1.1 以上を使用して、適度にアニメーションをつける（派手にならないように注意）
 - スクロールアニメーションは、AOS v2.3 以上を使用するか、ユーザーの要求によっては、  Animate.css v4.1.1 + Intersection Observer API で実装してください
 - アイコンや、ロゴは、Lucide v0.536.0 (https://lucide.dev/) を使ってください
