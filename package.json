@@ -4,12 +4,19 @@
   "description": "Webpage template for Claude Code with Unsplash integration",
   "type": "module",
   "scripts": {
-    "search": "node dev-tools/unsplash-search.js"
+    "search": "node dev-tools/unsplash-search.js",
+    "build:css": "bash scripts/build-css.sh",
+    "build:css:prod": "bash scripts/build-css-prod.sh",
+    "watch:css": "npx @tailwindcss/cli -i ./src/input.css -o ./public/assets/css/style.css --watch"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
     "undici": "^7.16.0",
     "unsplash-js": "^7.0.19"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.1.0",
+    "@tailwindcss/cli": "^4.1.0"
   },
   "keywords": [
     "webpage",

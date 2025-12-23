@@ -7,6 +7,30 @@
           {
             "type": "command",
             "command": "chmod +x \"$CLAUDE_PROJECT_DIR\"/scripts/install_pkgs.sh && \"$CLAUDE_PROJECT_DIR\"/scripts/install_pkgs.sh"
+          },
+          {
+            "type": "command",
+            "command": "chmod +x \"$CLAUDE_PROJECT_DIR\"/scripts/build-css.sh \"$CLAUDE_PROJECT_DIR\"/scripts/build-css-prod.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/build-css.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/build-css.sh"
           }
         ]
       }

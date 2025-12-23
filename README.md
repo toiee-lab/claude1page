@@ -95,6 +95,47 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
    - Claude Code を起動して、Webページの作成を開始してください
 
 
+## Tailwind CSS のビルドについて
+
+このプロジェクトは、Tailwind CSS v4.1+ を使用しており、CDNではなく、CLI でビルドされたCSSを使用します。
+
+### 自動ビルド
+
+- **Claude Code が HTML ファイルを作成・編集すると、自動的に CSS がビルドされます**（手動実行は不要）
+- ビルドされた CSS は `public/assets/css/style.css` に出力されます
+
+### 手動ビルド（必要に応じて）
+
+開発用ビルド（デバッグ情報あり）:
+```bash
+npm run build:css
+```
+
+本番用ビルド（最適化・圧縮あり）:
+```bash
+npm run build:css:prod
+```
+
+ウォッチモード（ファイル変更を監視して自動ビルド）:
+```bash
+npm run watch:css
+```
+
+### カラーパレットのカスタマイズ
+
+カラーパレットをカスタマイズする場合は、`src/input.css` の `@theme` セクションを編集してください。詳細は `CLAUDE.md` を参照してください。
+
+### デプロイ前の注意
+
+**Cloudflare Pages へデプロイする前に、必ず本番用ビルドを実行してください**:
+```bash
+npm run build:css:prod
+git add public/assets/css/style.css
+git commit -m "Build production CSS for deployment"
+git push
+```
+
+
 ## ポイント
 
 - **プロンプトファイルの活用**
