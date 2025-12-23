@@ -6,6 +6,7 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
 
 - 2025年 12月23日:
   - TailwindCSS v4.1 の設定をより確実に行われるように、CLAUDE.md を修正
+  - ナビゲーションがより確実に実装されやすいように技術仕様、デザインについての方針を明確に記述(CLAUDE.md)
 - 2025年 11月26日:
   - Claude Code on the Web (Sandbox)では、Unsplashの画像検索ができない問題を解決（Proxyを使うように修正）
   - 画像検索のフォールバックが、フォールバックになっていない（エラーする画像URL）ので、独自で用意したダミー画像URLを指定するようにした（ https://www.claude-webmaster.jp/images/dummy.jpg )
