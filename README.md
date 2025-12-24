@@ -19,16 +19,42 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
 
 **アップデート方法は、末尾をご覧ください**
 
-## 必要なもの
+## 必要なサービスと準備
 
-- **Claude Code の事前インストール**
+- **Claude Code の事前インストール** （Cloude Code on the Web でも動作します）
+- **Nodeのインストール**
 - **Visual Studio Code**
-- **おすすめの拡張機能**
-	- Claude Code
-  - Live Server
-  - Prettier - Code formatter
+  - **おすすめの拡張機能**
+  	- Claude Code
+    - Live Server
+    - Prettier - Code formatter
+- [Github.com](https://github.com/)
+- Gitのインストールと設定
+- [Cloudflare](https://www.cloudflare.com/ja-jp/)
+- [Unsplash開発者登録](https://unsplash.com/oauth/applications)
 
-あるいは、Cloude Code on the Web でも利用可能です。
+### Unsplash API キーの設定（環境変数に設定）
+
+**APIキーの取得方法：**
+1. [Unsplash Developers](https://unsplash.com/developers) にアクセス
+2. "Register as a developer" でアカウント登録
+3. "New Application" で新しいアプリケーションを作成
+4. Access Key を取得
+
+環境変数に設定する場合は、以下のようなコマンド（here-is-your-keyを書き換えた上で）を実行します。
+
+macOSの場合
+```zsh
+echo 'export UNSPLASH_ACCESS_KEY=here-is-your-key' >> ~/.zshrc && source ~/.zshrc
+```
+
+Windowsの場合（PowerShellで実行）
+```powershell
+if (!(Test-Path $PROFILE)) { New-Item -Path $PROFILE -ItemType File -Force }; Add-Content -Path $PROFILE -Value '$env:UNSPLASH_ACCESS_KEY="here-is-your-key"'; . $PROFILE
+```
+
+あるいは、APIキー設定用のファイルを作成し、中身を編集してください。見ればわかります。
+cp .env.local.example .env.local
 
 ## 準備
 
@@ -53,50 +79,17 @@ Claude Code を使って、シンプルで、モダンで、美しい、ワン�
    rm -rf .git
    git init
    chmod +x scripts/install_pkg.sh
-   ```
-
-3. **Unsplash API設定**
-
-   高品質な画像を検索し、Webページに自動設定するために、Unsplash の **API キーの設定を強く推奨します** 。
-
-   **APIキーの取得方法：**
-   1. [Unsplash Developers](https://unsplash.com/developers) にアクセス
-   2. "Register as a developer" でアカウント登録
-   3. "New Application" で新しいアプリケーションを作成
-   4. Access Key を取得
-
-   APIキーは、以下のように、 `.env.local` ファイルに設定しても良いですし、環境変数に設定しても良いです。環境変数に設定した方が、他のプロジェクトでも設定不要になるので、環境変数への設定をお勧めします。
-
-   まず、必要なライブラリをインストールします（忘れずに！）
-   ```bash
    npm install
    ```
 
-   環境変数に設定する場合は、以下のようなコマンド（here-is-your-keyを書き換えた上で）を実行します。
-
-   macOSの場合
-   ```zsh
-   echo 'export UNSPLASH_ACCESS_KEY=here-is-your-key' >> ~/.zshrc && source ~/.zshrc
-   ```
-
-   Windowsの場合（PowerShellで実行）
-   ```powershell
-   if (!(Test-Path $PROFILE)) { New-Item -Path $PROFILE -ItemType File -Force }; Add-Content -Path $PROFILE -Value '$env:UNSPLASH_ACCESS_KEY="here-is-your-key"'; . $PROFILE
-   ```
-
-   あるいは、APIキー設定用のファイルを作成し、中身を編集してください。見ればわかります。
-   cp .env.local.example .env.local
-
-   テストは、以下の通りです。
+3. **Unsplashで画像が検索できるかテストする**
+   以下のコマンドでテストしてください。
 
    ```bash
-   node dev-tools/unsplash-search.js "キーワード"
+   npm run search "hello"
    ```
 
-
-4. **作る**
-   - Claude Code を起動して、Webページの作成を開始してください
-
+以上で完了です。
 
 ## ポイント
 
@@ -175,14 +168,11 @@ curl -o package-lock.json  https://raw.githubusercontent.com/toiee-lab/claude1pa
 mkdir scripts
 curl -o scripts/install_pkgs.sh  https://raw.githubusercontent.com/toiee-lab/claude1page/main/scripts/install_pkgs.sh
 chmod +x scripts/install_pkgs.sh
-```
-
-最後に、npm パッケージを再インストールします。
-
-```bash
 npm install
 ```
 
 ### (2) 変更点をチェック
 
 ソースコード管理などで、変更されたファイルをチェックしてください。もし、あなたが意図的に変更したものを上書きしているなら、以前のものと今のものを比較しながら、調整してください。
+
+特に、 **CLAUDE.md ファイルをカスタマイズしている場合は、ご自身の変更を再反映** してください。
