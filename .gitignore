@@ -113,6 +113,7 @@ build/
 *.temp
 temp/
 tmp/
+.playwright-mcp
 
 # Local development files
 .local
