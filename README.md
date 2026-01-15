@@ -2,6 +2,12 @@
 
 Claude Code を使って、シンプルで、モダンで、美しい、ワンページで完結するWebページを作るためのスターターキットです。Cloudflare Pagesで簡単に公開できるように設計されています。
 
+## 免責事項（Disclaimer）
+
+本プロジェクトは非公式のコミュニティプロジェクトであり、Anthropic PBCとは一切関係がありません。Claude®はAnthropic PBCの登録商標です。
+
+This is an unofficial, community-created project and is not affiliated with, endorsed by, or sponsored by Anthropic PBC. Claude® is a registered trademark of Anthropic PBC.
+
 ## 更新履歴
 
 - 2025年 12月26日:
