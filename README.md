@@ -10,6 +10,8 @@ This is an unofficial, community-created project and is not affiliated with, end
 
 ## 更新履歴
 
+- 2026年 1月19日:
+  - Unsplash画像検索を Sub Agent ではなく、Skillに移行（これにより、コンテキストの消費を抑え、動作も軽快になる）
 - 2025年 12月26日:
   - .gitignore に、`.playwright-mcp` 一時フォルダを追加し、リポジトリから除外されるようにした
 - 2025年 12月23日:
@@ -176,6 +178,10 @@ curl -o package-lock.json  https://raw.githubusercontent.com/toiee-lab/claude1pa
 mkdir scripts
 curl -o scripts/install_pkgs.sh  https://raw.githubusercontent.com/toiee-lab/claude1page/main/scripts/install_pkgs.sh
 chmod +x scripts/install_pkgs.sh
+mkdir -p .claude/skills/unsplash-image-finder
+curl -o .claude/skills/unsplash-image-finder/SKILL.md  https://raw.githubusercontent.com/toiee-lab/claude1page/main/.claude/skills/unsplash-image-finder/SKILL.md
+rm -f .claude/agents/unsplash-image-finder.md
+curl -o README.md https://raw.githubusercontent.com/toiee-lab/claude1page/main/README.md
 npm install
 ```
 
