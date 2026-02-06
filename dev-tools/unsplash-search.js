@@ -118,7 +118,7 @@ class UnsplashImageSearch {
   getFallbackImageUrl(query, width, quality) {
     console.log(`🔄 Using fallback image for "${query}"`);
     // source.unsplash.com はサービス停止のため、ダミー画像を使用
-    return 'https://www.claude-webmaster.jp/images/dummy.jpg';
+    return 'https://cwm.toiee.jp/images/dummy.jpg';
   }
 
   /**
