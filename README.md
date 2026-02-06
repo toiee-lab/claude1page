@@ -10,6 +10,9 @@ This is an unofficial, community-created project and is not affiliated with, end
 
 ## 更新履歴
 
+- 2026年 2月6日:
+  - 講座のURLを、cwm.toiee.jp にドメインを変更したこと伴う修正（ダミー画像のリンク先）
+  - CLAUDE.md の冗長性の修正
 - 2026年 1月19日:
   - Unsplash画像検索を Sub Agent ではなく、Skillに移行（これにより、コンテキストの消費を抑え、動作も軽快になる）
 - 2025年 12月26日:
