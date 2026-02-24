@@ -10,6 +10,8 @@ This is an unofficial, community-created project and is not affiliated with, end
 
 ## 更新履歴
 
+- 2026年 2月24日:
+  - Claude Code Desktop のプレビュー機能で利用できるように、 launch.json を追加
 - 2026年 2月6日:
   - 講座のURLを、cwm.toiee.jp にドメインを変更したこと伴う修正（ダミー画像のリンク先）
   - CLAUDE.md の冗長性の修正
@@ -174,6 +176,7 @@ claude1page/
 ```bash
 curl -o CLAUDE.md https://raw.githubusercontent.com/toiee-lab/claude1page/main/CLAUDE.md
 curl -o .claude/settings.json  https://raw.githubusercontent.com/toiee-lab/claude1page/main/.claude/settings.json
+curl -o .claude/launch.json  https://raw.githubusercontent.com/toiee-lab/claude1page/main/.claude/launch.json
 curl -o .rgignore  https://raw.githubusercontent.com/toiee-lab/claude1page/main/.rgignore
 curl -o dev-tools/unsplash-search.js  https://raw.githubusercontent.com/toiee-lab/claude1page/main/dev-tools/unsplash-search.js
 curl -o package.json  https://raw.githubusercontent.com/toiee-lab/claude1page/main/package.json
