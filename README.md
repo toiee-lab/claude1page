@@ -10,6 +10,10 @@ This is an unofficial, community-created project and is not affiliated with, end
 
 ## 更新履歴
 
+- 2026年 3月10日:
+  - 外部依存（Node.js パッケージ）を完全撤廃。`package.json`, `scripts/install_pkgs.sh` を削除
+  - `unsplash-search.js` を `.claude/skills/unsplash-image-finder/` に統合（外部依存ゼロで動作）
+  - アップデート方式をワンライナーに刷新（`scripts/update.sh` / `update.ps1`）
 - 2026年 2月24日:
   - Claude Code Desktop のプレビュー機能で利用できるように、 launch.json を追加
 - 2026年 2月6日:
@@ -89,19 +93,17 @@ cp .env.local.example .env.local
    git clone https://github.com/toiee-lab/claude1page.git .
    ```
 
-2. **リポジトリの初期化と、セットアップスクリプトの実行権限与える**
+2. **リポジトリの初期化**
    ```bash
    rm -rf .git
    git init
-   chmod +x scripts/install_pkg.sh
-   npm install
    ```
 
 3. **Unsplashで画像が検索できるかテストする**
    以下のコマンドでテストしてください。
 
    ```bash
-   npm run search "hello"
+   node .claude/skills/unsplash-image-finder/unsplash-search.js "hello"
    ```
 
 以上で完了です。
@@ -142,10 +144,14 @@ claude1page/
 │   ├── index.html      # メインページ
 │   └── assets/         # CSS、JS、画像などの静的ファイル
 ├── project-docs/       # プロジェクト関連ドキュメント
-├── dev-tools/          # 画像検索ツール（オプション）
-│   ├── package.json
-│   ├── unsplash-search.js
-│   └── README.md
+├── scripts/            # アップデートスクリプト
+│   ├── update.sh      # macOS/Linux用
+│   └── update.ps1     # Windows用
+├── .claude/
+│   ├── settings.json  # Claude Code設定
+│   ├── launch.json    # ローカル開発サーバー設定
+│   └── skills/        # スキル定義
+│       └── unsplash-image-finder/
 ├── CLAUDE.md          # Claude Code用の指示書
 ├── .env.local.example # API設定テンプレート
 └── README.md          # このファイル
@@ -167,28 +173,20 @@ claude1page/
 
 このテンプレートリポジトリから作成した新しいリポジトリには、自動でアップデートはされません（通知も）。
 
-ほとんど、アップデートされることはありませんが、時々、Claude Code の新しい機能に対応させるために、アップデートを行うことがあります。例えば、Claude Code on the Web で動作させたい場合は、アップデートさせる必要があります。手順は、以下の通りです。
+時々、Claude Code の新しい機能に対応させるために、アップデートを行うことがあります。手順は、以下の通りです。
 
-### (1) スクリプトを実行
+### (1) アップデートスクリプトを実行
 
-ターミナルを開いて、以下を実行してください。
+プロジェクトのルートディレクトリで、以下のワンライナーを実行してください。
 
+**macOS / Linux:**
 ```bash
-curl -o CLAUDE.md https://raw.githubusercontent.com/toiee-lab/claude1page/main/CLAUDE.md
-curl -o .claude/settings.json  https://raw.githubusercontent.com/toiee-lab/claude1page/main/.claude/settings.json
-curl -o .claude/launch.json  https://raw.githubusercontent.com/toiee-lab/claude1page/main/.claude/launch.json
-curl -o .rgignore  https://raw.githubusercontent.com/toiee-lab/claude1page/main/.rgignore
-curl -o dev-tools/unsplash-search.js  https://raw.githubusercontent.com/toiee-lab/claude1page/main/dev-tools/unsplash-search.js
-curl -o package.json  https://raw.githubusercontent.com/toiee-lab/claude1page/main/package.json
-curl -o package-lock.json  https://raw.githubusercontent.com/toiee-lab/claude1page/main/package-lock.json
-mkdir scripts
-curl -o scripts/install_pkgs.sh  https://raw.githubusercontent.com/toiee-lab/claude1page/main/scripts/install_pkgs.sh
-chmod +x scripts/install_pkgs.sh
-mkdir -p .claude/skills/unsplash-image-finder
-curl -o .claude/skills/unsplash-image-finder/SKILL.md  https://raw.githubusercontent.com/toiee-lab/claude1page/main/.claude/skills/unsplash-image-finder/SKILL.md
-rm -f .claude/agents/unsplash-image-finder.md
-curl -o README.md https://raw.githubusercontent.com/toiee-lab/claude1page/main/README.md
-npm install
+curl -fsSL https://raw.githubusercontent.com/toiee-lab/claude1page/main/scripts/update.sh | bash
+```
+
+**Windows (PowerShell):**
+```powershell
+irm https://raw.githubusercontent.com/toiee-lab/claude1page/main/scripts/update.ps1 | iex
 ```
 
 ### (2) 変更点をチェック
