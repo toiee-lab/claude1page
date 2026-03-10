@@ -1,8 +1,7 @@
 ---
 name: unsplash-image-finder
 description: Search and optimize images from Unsplash for web pages. Use this skill when you need to find images for website content, hero sections, backgrounds, or any web design elements. Automatically triggered when creating web pages without user-provided images, or when user mentions needing images, photos, Unsplash, or visual content for websites. Optimizes images with width, quality, and format parameters for web performance.
-allowed-tools: Bash, Read
-user-invocable: true
+user-invokable: true
 ---
 
 # Unsplash Image Finder Skill
@@ -16,14 +15,14 @@ user-invocable: true
 既存の実装スクリプトを使用して画像を検索します：
 
 ```bash
-node dev-tools/unsplash-search.js "keyword"
+node .claude/skills/unsplash-image-finder/unsplash-search.js "keyword"
 ```
 
 **例**:
 ```bash
-node dev-tools/unsplash-search.js "coffee shop"
-node dev-tools/unsplash-search.js "mountain landscape"
-node dev-tools/unsplash-search.js "business meeting"
+node .claude/skills/unsplash-image-finder/unsplash-search.js "coffee shop"
+node .claude/skills/unsplash-image-finder/unsplash-search.js "mountain landscape"
+node .claude/skills/unsplash-image-finder/unsplash-search.js "business meeting"
 ```
 
 ### 画像URL最適化パラメータ
@@ -125,7 +124,7 @@ UNSPLASH_ACCESS_KEY=your_access_key_here
 
 ```bash
 # カフェの画像を検索
-node dev-tools/unsplash-search.js "cafe interior"
+node .claude/skills/unsplash-image-finder/unsplash-search.js "cafe interior"
 ```
 
 出力された画像URLを最適化：
@@ -137,13 +136,13 @@ https://images.unsplash.com/photo-xxx?w=1200&q=80&fm=webp&fit=crop
 
 ```bash
 # Hero用の画像
-node dev-tools/unsplash-search.js "modern office"
+node .claude/skills/unsplash-image-finder/unsplash-search.js "modern office"
 
 # About用の画像
-node dev-tools/unsplash-search.js "team collaboration"
+node .claude/skills/unsplash-image-finder/unsplash-search.js "team collaboration"
 
 # Services用の画像
-node dev-tools/unsplash-search.js "technology workspace"
+node .claude/skills/unsplash-image-finder/unsplash-search.js "technology workspace"
 ```
 
 ## ベストプラクティス

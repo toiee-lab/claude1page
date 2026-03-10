@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
-import { createApi } from 'unsplash-js';
-import { ProxyAgent } from 'undici';
-import { config } from 'dotenv';
+import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
@@ -10,11 +8,36 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// 環境変数が設定されていない場合のみ .env.local を読み込む
-// システム環境変数を優先、なければ .env.local から読み込む
-if (!process.env.UNSPLASH_ACCESS_KEY) {
-  config({ path: join(__dirname, '..', '.env.local') });
+// プロジェクトルートを算出（.claude/skills/unsplash-image-finder/ → 3階層上）
+const projectRoot = join(__dirname, '..', '..', '..');
+
+// .env.local を自前パース（dotenv不要）
+function loadEnvFile(filePath) {
+  try {
+    const content = readFileSync(filePath, 'utf-8');
+    for (const line of content.split('\n')) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+      const eqIndex = trimmed.indexOf('=');
+      if (eqIndex === -1) continue;
+      const key = trimmed.slice(0, eqIndex).trim();
+      const value = trimmed.slice(eqIndex + 1).trim();
+      // 既存の環境変数を上書きしない
+      if (!process.env[key]) {
+        process.env[key] = value;
+      }
+    }
+  } catch {
+    // ファイルが無い場合は無視
+  }
 }
+
+// 環境変数が設定されていない場合のみ .env.local を読み込む
+if (!process.env.UNSPLASH_ACCESS_KEY) {
+  loadEnvFile(join(projectRoot, '.env.local'));
+}
+
+const UNSPLASH_API = 'https://api.unsplash.com';
 
 /**
  * Unsplash画像検索クラス
@@ -29,25 +52,29 @@ class UnsplashImageSearch {
       console.error('📖 See .env.local.example for reference');
       process.exit(1);
     }
+  }
 
-    // プロキシ設定を取得
-    const proxyUrl = process.env.HTTPS_PROXY || process.env.https_proxy ||
-                     process.env.HTTP_PROXY || process.env.http_proxy;
-
-    // カスタムfetchを設定（プロキシサポート付き）
-    const customFetch = proxyUrl
-      ? (url, options) => {
-          return fetch(url, {
-            ...options,
-            dispatcher: new ProxyAgent(proxyUrl)
-          });
-        }
-      : undefined;
-
-    this.unsplash = createApi({
-      accessKey: this.accessKey,
-      fetch: customFetch,
+  /**
+   * Unsplash API へリクエストを送る
+   * @param {string} path APIパス
+   * @param {Record<string, string>} params クエリパラメータ
+   * @returns {Promise<any>}
+   */
+  async apiRequest(path, params = {}) {
+    const url = new URL(path, UNSPLASH_API);
+    for (const [key, value] of Object.entries(params)) {
+      url.searchParams.set(key, String(value));
+    }
+    const res = await fetch(url.toString(), {
+      headers: {
+        'Authorization': `Client-ID ${this.accessKey}`,
+        'Accept-Version': 'v1',
+      },
     });
+    if (!res.ok) {
+      throw new Error(`Unsplash API error: ${res.status} ${res.statusText}`);
+    }
+    return res.json();
   }
 
   /**
@@ -60,21 +87,16 @@ class UnsplashImageSearch {
   async searchImage(query, width = 800, quality = 80) {
     try {
       console.log(`🔍 Searching for: "${query}"`);
-      
-      const result = await this.unsplash.search.getPhotos({
+
+      const data = await this.apiRequest('/search/photos', {
         query,
-        page: 1,
-        perPage: 10,
+        page: '1',
+        per_page: '10',
         orientation: 'landscape',
       });
 
-      if (result.errors) {
-        console.error('❌ API Error:', result.errors);
-        return this.getFallbackImageUrl(query, width, quality);
-      }
+      const photos = data.results;
 
-      const photos = result.response.results;
-      
       if (!photos || photos.length === 0) {
         console.log(`⚠️  No images found for "${query}"`);
         return this.getFallbackImageUrl(query, width, quality);
@@ -82,26 +104,26 @@ class UnsplashImageSearch {
 
       // 最初の画像を選択（通常は最も関連性が高い）
       const selectedPhoto = photos[0];
-      
+
       // 最適化されたURLを生成
       const optimizedUrl = `${selectedPhoto.urls.raw}&w=${width}&q=${quality}&fm=webp&fit=crop`;
-      
+
       console.log(`✅ Found image by ${selectedPhoto.user.name}`);
       console.log(`📸 Image URL: ${optimizedUrl}`);
-      
+
       // ダウンロード追跡（Unsplash API規約に準拠）
       if (selectedPhoto.links.download_location) {
         try {
-          await this.unsplash.photos.trackDownload({
-            downloadLocation: selectedPhoto.links.download_location,
+          await fetch(selectedPhoto.links.download_location, {
+            headers: { 'Authorization': `Client-ID ${this.accessKey}` },
           });
         } catch (trackError) {
           console.warn('⚠️  Could not track download:', trackError.message);
         }
       }
-      
+
       return optimizedUrl;
-      
+
     } catch (error) {
       console.error('❌ Search failed:', error.message);
       return this.getFallbackImageUrl(query, width, quality);
@@ -130,13 +152,13 @@ class UnsplashImageSearch {
    */
   async searchMultipleImages(queries, width = 800, quality = 80) {
     const results = {};
-    
+
     for (const query of queries) {
       results[query] = await this.searchImage(query, width, quality);
       // レート制限を回避するため少し待機
       await new Promise(resolve => setTimeout(resolve, 200));
     }
-    
+
     return results;
   }
 }
@@ -146,7 +168,7 @@ class UnsplashImageSearch {
  */
 async function main() {
   const args = process.argv.slice(2);
-  
+
   if (args.length === 0) {
     console.log('📖 Usage:');
     console.log('  node unsplash-search.js "search keyword"');
@@ -159,9 +181,9 @@ async function main() {
   }
 
   const searcher = new UnsplashImageSearch();
-  
+
   const input = args[0];
-  const keywords = input.includes(',') 
+  const keywords = input.includes(',')
     ? input.split(',').map(k => k.trim())
     : [input.trim()];
 
@@ -175,7 +197,7 @@ async function main() {
       // 複数キーワード検索
       console.log(`🔍 Searching for ${keywords.length} images...`);
       const results = await searcher.searchMultipleImages(keywords);
-      
+
       console.log('\n🎉 Results:');
       for (const [keyword, url] of Object.entries(results)) {
         console.log(`${keyword}: ${url}`);
