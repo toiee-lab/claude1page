@@ -8,6 +8,21 @@ user-invokable: true
 
 このスキルは、Webページ作成時にUnsplashから適切な画像を検索し、最適化されたURLを提供します。
 
+## セットアップ確認（ヘルスチェック）
+
+ユーザーが「Unsplashで画像検索できますか？」「画像検索の設定は大丈夫？」などと聞いてきた場合、以下のコマンドを実行して確認してください：
+
+```bash
+node .claude/skills/unsplash-image-finder/unsplash-search.js --check
+```
+
+**結果はJSON形式で返されます：**
+
+- `status: "ok"` → 正常に動作しています。ユーザーに「画像検索は使えます」と伝えてください。
+- `status: "error"` → 問題があります。`message` にエラー内容、`guide` に解決手順が含まれるので、それをユーザーに分かりやすく伝えてください。
+
+**注意**: `--check` オプションは `UnsplashImageSearch` クラスのインスタンス化をスキップするため、APIキー未設定でも `process.exit(1)` で即終了せずに、適切なガイドメッセージをJSON出力します。
+
 ## 使用方法
 
 ### 基本的な呼び出し

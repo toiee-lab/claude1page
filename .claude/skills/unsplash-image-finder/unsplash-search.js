@@ -164,19 +164,93 @@ class UnsplashImageSearch {
 }
 
 /**
+ * ヘルスチェック: APIキーの存在確認とテスト検索を実行
+ * @returns {Promise<void>}
+ */
+async function healthCheck() {
+  const result = { status: 'error', message: '', guide: '' };
+
+  // Step 1: APIキーの存在確認
+  const accessKey = process.env.UNSPLASH_ACCESS_KEY;
+  if (!accessKey) {
+    result.message = 'UNSPLASH_ACCESS_KEY が設定されていません';
+    result.guide = [
+      '設定手順:',
+      '1. https://unsplash.com/developers でアカウント作成・ログイン',
+      '2. 「New Application」でアプリを作成し、Access Key を取得',
+      '3. プロジェクトルートに .env.local ファイルを作成し、以下を記入:',
+      '   UNSPLASH_ACCESS_KEY=取得したキー',
+      '',
+      '参考: .env.local.example にテンプレートがあります',
+    ].join('\n');
+    console.log(JSON.stringify(result, null, 2));
+    process.exit(1);
+  }
+
+  // Step 2: テスト検索
+  try {
+    const url = new URL('/search/photos', UNSPLASH_API);
+    url.searchParams.set('query', 'test');
+    url.searchParams.set('per_page', '1');
+
+    const res = await fetch(url.toString(), {
+      headers: {
+        'Authorization': `Client-ID ${accessKey}`,
+        'Accept-Version': 'v1',
+      },
+    });
+
+    if (!res.ok) {
+      result.message = `Unsplash API エラー: ${res.status} ${res.statusText}`;
+      if (res.status === 401) {
+        result.guide = 'APIキーが無効です。.env.local の UNSPLASH_ACCESS_KEY を確認してください。';
+      } else if (res.status === 403) {
+        result.guide = 'APIのレート制限に達した可能性があります。しばらく待ってから再試行してください。';
+      }
+      console.log(JSON.stringify(result, null, 2));
+      process.exit(1);
+    }
+
+    const data = await res.json();
+    const photo = data.results?.[0];
+
+    result.status = 'ok';
+    result.message = 'Unsplash API は正常に動作しています';
+    if (photo) {
+      result.testResult = `${photo.urls.raw}&w=400&q=80&fm=webp&fit=crop`;
+    }
+    console.log(JSON.stringify(result, null, 2));
+
+  } catch (error) {
+    result.message = `接続エラー: ${error.message}`;
+    result.guide = 'ネットワーク接続を確認してください。';
+    console.log(JSON.stringify(result, null, 2));
+    process.exit(1);
+  }
+}
+
+/**
  * コマンドライン実行部分
  */
 async function main() {
   const args = process.argv.slice(2);
 
+  // --check オプション: ヘルスチェック実行
+  if (args.includes('--check')) {
+    await healthCheck();
+    return;
+  }
+
   if (args.length === 0) {
     console.log('📖 Usage:');
     console.log('  node unsplash-search.js "search keyword"');
     console.log('  node unsplash-search.js "keyword1,keyword2,keyword3"');
+    console.log('  node unsplash-search.js --check');
     console.log('');
     console.log('🎯 Examples:');
     console.log('  node unsplash-search.js "business team"');
     console.log('  node unsplash-search.js "technology,innovation,startup"');
+    console.log('  node unsplash-search.js --check  (APIキーの確認)');
     process.exit(1);
   }
 
