@@ -1,7 +1,7 @@
 ---
 name: unsplash-image-finder
 description: Search and optimize images from Unsplash for web pages. Use this skill when you need to find images for website content, hero sections, backgrounds, or any web design elements. Automatically triggered when creating web pages without user-provided images, or when user mentions needing images, photos, Unsplash, or visual content for websites. Optimizes images with width, quality, and format parameters for web performance.
-user-invokable: true
+user-invocable: true
 ---
 
 # Unsplash Image Finder Skill
