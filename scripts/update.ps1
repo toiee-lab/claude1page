@@ -31,7 +31,7 @@ Write-Host "  done"
 # --- ディレクトリ作成 ---
 Write-Host "ディレクトリを準備中..." -ForegroundColor Yellow
 
-$dirs = @(".claude\skills\unsplash-image-finder", "scripts")
+$dirs = @(".claude\skills\unsplash-image-finder", ".claude\skills\one-page-site-builder\references", "scripts")
 foreach ($d in $dirs) {
     if (-not (Test-Path $d)) { New-Item -ItemType Directory -Path $d -Force | Out-Null }
 }
@@ -63,6 +63,11 @@ $files = @(
     ".gitignore",
     ".claude\skills\unsplash-image-finder\SKILL.md",
     ".claude\skills\unsplash-image-finder\unsplash-search.js",
+    ".claude\skills\one-page-site-builder\SKILL.md",
+    ".claude\skills\one-page-site-builder\references\tech-stack.md",
+    ".claude\skills\one-page-site-builder\references\navigation-spec.md",
+    ".claude\skills\one-page-site-builder\references\content-structure.md",
+    ".claude\skills\one-page-site-builder\references\image-optimization.md",
     "scripts\update.sh",
     "scripts\update.ps1",
     "README.md"

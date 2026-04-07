@@ -39,6 +39,7 @@ echo "  done"
 # --- ディレクトリ作成 ---
 echo -e "${YELLOW}ディレクトリを準備中...${NC}"
 mkdir -p .claude/skills/unsplash-image-finder
+mkdir -p .claude/skills/one-page-site-builder/references
 mkdir -p scripts
 echo "  done"
 
@@ -63,6 +64,11 @@ download ".env.local.example"
 download ".gitignore"
 download ".claude/skills/unsplash-image-finder/SKILL.md"
 download ".claude/skills/unsplash-image-finder/unsplash-search.js"
+download ".claude/skills/one-page-site-builder/SKILL.md"
+download ".claude/skills/one-page-site-builder/references/tech-stack.md"
+download ".claude/skills/one-page-site-builder/references/navigation-spec.md"
+download ".claude/skills/one-page-site-builder/references/content-structure.md"
+download ".claude/skills/one-page-site-builder/references/image-optimization.md"
 download "scripts/update.sh"
 download "scripts/update.ps1"
 download "README.md"
