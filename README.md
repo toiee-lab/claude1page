@@ -11,6 +11,7 @@ This is an unofficial, community-created project and is not affiliated with, end
 ## 更新履歴
 
 - 2026年 4月 9日:
+  - `SessionStart` フックを追加。クラウド環境（`$CLAUDE_CODE_REMOTE = "true"`）でのみ `npm install` を自動実行するよう設定
   - `node install` 不要にしていたが、Claude Codeクラウド環境では、プロキシを使う必要があるため、 `undici` を使い対応するように変更
   - ただし `unsplash-search.js` の `undici` を動的インポートに変更し、`npm install` 不要でも動作するよう改善
   - `package.json` に `"type": "module"` を追加し、Node.js の警告を解消
