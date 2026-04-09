@@ -20,7 +20,7 @@ if (-not (Test-Path "CLAUDE.md")) {
 # --- 古いファイルの削除 ---
 Write-Host "古いファイルを削除中..." -ForegroundColor Yellow
 
-$oldFiles = @("package.json", "package-lock.json", "scripts\install_pkgs.sh", ".claude\agents\unsplash-image-finder.md")
+$oldFiles = @("scripts\install_pkgs.sh", ".claude\agents\unsplash-image-finder.md")
 foreach ($f in $oldFiles) {
     if (Test-Path $f) { Remove-Item $f -Force }
 }
@@ -70,6 +70,8 @@ $files = @(
     ".claude\skills\one-page-site-builder\references\image-optimization.md",
     "scripts\update.sh",
     "scripts\update.ps1",
+    "package.json",
+    "package-lock.json",
     "README.md"
 )
 

@@ -10,6 +10,10 @@ This is an unofficial, community-created project and is not affiliated with, end
 
 ## 更新履歴
 
+- 2026年 4月 9日:
+  - `unsplash-search.js` の `undici` を動的インポートに変更。`npm install` 不要でも動作するよう改善
+  - `package.json` に `"type": "module"` を追加し、Node.js の警告を解消
+  - アップデートスクリプト（`update.sh` / `update.ps1`）で `package.json` / `package-lock.json` を削除せず、最新版をダウンロードするよう変更
 - 2026年 4月 7日:
   - `one-page-site-builder` スキルを追加（ワンページサイトの技術スタック・HTML 構造・ナビ仕様・画像最適化方針を集約）
   - CLAUDE.md を整理し、詳細仕様はスキル側に委譲するシンプルな構成に刷新
@@ -110,6 +114,18 @@ cp .env.local.example .env.local
    ```
 
 以上で完了です。
+
+### プロキシが必要な環境の場合（Claude Code クラウド環境など）
+
+**Claude Code on the Web（クラウドサンドボックス環境）** など、プロキシを経由して外部通信を行う環境では、`undici` パッケージが必要です。
+
+```bash
+npm install
+```
+
+`npm install` を実行すると `undici` がインストールされ、プロキシ経由での Unsplash API アクセスが有効になります。
+
+ローカル環境（通常のプロキシなし）では `npm install` は不要です。
 
 ## ポイント
 

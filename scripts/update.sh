@@ -29,7 +29,6 @@ fi
 echo -e "${YELLOW}古いファイルを削除中...${NC}"
 
 # v1 の構成で存在していたファイル
-rm -f package.json package-lock.json
 rm -rf scripts/install_pkgs.sh
 rm -rf dev-tools/
 rm -f .claude/agents/unsplash-image-finder.md
@@ -71,6 +70,8 @@ download ".claude/skills/one-page-site-builder/references/content-structure.md"
 download ".claude/skills/one-page-site-builder/references/image-optimization.md"
 download "scripts/update.sh"
 download "scripts/update.ps1"
+download "package.json"
+download "package-lock.json"
 download "README.md"
 
 # update.sh に実行権限を付与
