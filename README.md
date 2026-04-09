@@ -11,7 +11,8 @@ This is an unofficial, community-created project and is not affiliated with, end
 ## 更新履歴
 
 - 2026年 4月 9日:
-  - `unsplash-search.js` の `undici` を動的インポートに変更。`npm install` 不要でも動作するよう改善
+  - `node install` 不要にしていたが、Claude Codeクラウド環境では、プロキシを使う必要があるため、 `undici` を使い対応するように変更
+  - ただし `unsplash-search.js` の `undici` を動的インポートに変更し、`npm install` 不要でも動作するよう改善
   - `package.json` に `"type": "module"` を追加し、Node.js の警告を解消
   - アップデートスクリプト（`update.sh` / `update.ps1`）で `package.json` / `package-lock.json` を削除せず、最新版をダウンロードするよう変更
 - 2026年 4月 7日:
