@@ -3,6 +3,7 @@
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { ProxyAgent, setGlobalDispatcher } from 'undici';
 
 // ESモジュールでの__dirnameの取得
 const __filename = fileURLToPath(import.meta.url);
@@ -35,6 +36,13 @@ function loadEnvFile(filePath) {
 // 環境変数が設定されていない場合のみ .env.local を読み込む
 if (!process.env.UNSPLASH_ACCESS_KEY) {
   loadEnvFile(join(projectRoot, '.env.local'));
+}
+
+// プロキシ設定（環境変数 HTTPS_PROXY / HTTP_PROXY を自動認識）
+const proxyUrl = process.env.HTTPS_PROXY || process.env.https_proxy ||
+                 process.env.HTTP_PROXY  || process.env.http_proxy;
+if (proxyUrl) {
+  setGlobalDispatcher(new ProxyAgent(proxyUrl));
 }
 
 const UNSPLASH_API = 'https://api.unsplash.com';
