@@ -1,102 +1,136 @@
 ---
 name: unsplash-image-finder
-description: Search and optimize images from Unsplash for web pages. Use this skill when you need to find images for website content, hero sections, backgrounds, or any web design elements. Automatically triggered when creating web pages without user-provided images, or when user mentions needing images, photos, Unsplash, or visual content for websites. Optimizes images with width, quality, and format parameters for web performance.
+description: This skill should be used when searching for or inserting images from Unsplash into web pages. Triggered when the user asks to find photos or images, when hero sections, backgrounds, or visual content are needed during page creation, or when the user mentions Unsplash, photos, or visual search.
 user-invocable: true
 ---
 
 # Unsplash Image Finder Skill
 
-このスキルは、Webページ作成時にUnsplashから適切な画像を検索し、最適化されたURLを提供します。
+Unsplash API を使って画像を検索し、最適化された URL を Web ページ用に提供する。
 
-## セキュリティ方針
+注意: 以下のコマンドはすべて**プロジェクトルートから実行**すること。
 
-**APIキーは絶対にClaudeのコンテキストに渡さない。**
-シェルスクリプトが `.env.local` からAPIキーを直接読み込むため、Claudeはキーを参照しない。
+---
 
-## セットアップ確認（ヘルスチェック）
+## シーン判定（最初に行うこと）
+
+| 条件 | シーン |
+|------|--------|
+| 「動作確認」「テスト」「使えるか確認」の依頼 | **C** — ヘルスチェック |
+| HTMLへの埋め込みが目的（`one-page-site-builder` 連携、または「使って」「入れて」等の指示） | **B** — 内部利用 |
+| ユーザーへの候補提示が目的（「探して」「どんな画像がある？」等） | **A** — 候補提示 |
+
+---
+
+## シーン C: ヘルスチェック
 
 ```bash
 bash .claude/skills/unsplash-image-finder/unsplash-health-check.sh
 ```
 
-- `status: "ok"` → 正常。ユーザーに「画像検索は使えます」と伝えてください。
-- `status: "error"` → `message` と `guide` をユーザーに分かりやすく伝えてください。
+- `status: "ok"` → ユーザーに「画像検索は使えます」と伝える
+- `status: "error"` → `message` と `guide` をユーザーに分かりやすく伝える
 
-## 使用方法
+---
 
-### ステップ1: 画像を検索する
+## 共通ステップ（シーン A・B 共通）
+
+### ステップ 1: 画像を検索する
 
 ```bash
 bash .claude/skills/unsplash-image-finder/unsplash-search.sh "keyword"
 ```
 
-スクリプトは Unsplash API の **生 JSON** を stdout に出力します。
-
-**複数セクションに画像が必要な場合も1回の検索で済む：**
-`per_page` のデフォルトは 10。`results[0]`〜`results[9]` から用途に応じて使い分ける。ただし、適切な画像がない、画像数が足りないと判断したら、再検索を行うこと。
+生 JSON を stdout に出力する。デフォルト 10 件（`results[0]`〜`results[9]`）。
 
 ```bash
-# 明示的に件数を指定する場合
+# 件数を指定する場合
 bash .claude/skills/unsplash-image-finder/unsplash-search.sh "keyword" 5
 ```
 
-### ステップ2: JSON から情報を取り出す
+複数セクションに画像が必要な場合も 1 回の検索で賄えることが多い。適切な画像がない・数が足りない場合は再検索する。
 
-出力 JSON の構造：
+### ステップ 2: JSON から情報を取り出す
 
 ```
-results[n].urls.raw               → 画像のベースURL（パラメータ付加前）
-results[n].user.name              → 撮影者名（クレジット表記用）
-results[n].links.download_location → ダウンロード追跡URL（Unsplash規約必須）
+results[n].urls.raw                → 画像のベースURL（パラメータ付加前）
+results[n].urls.small              → サムネイルURL（約400px幅）
+results[n].links.html              → UnsplashページURL（ユーザーがブラウザで確認できるURL）
+results[n].links.download_location → ダウンロード追跡URL（規約必須）
+results[n].description             → 画像の説明（画像選択の判断に使う）
+results[n].alt_description         → 画像の代替テキスト（画像選択の判断に使う）
+results[n].user.name               → 撮影者名（クレジット表記用）
+results[n].user.username           → 撮影者のUnsplashユーザー名
 ```
 
-### ステップ3: 画像URLを最適化する
+**画像選択の判断**: `description` / `alt_description` フィールドと検索順位を根拠に選ぶ。サムネイルの視覚確認は省略してよい。
+
+### ステップ 3: 画像 URL を最適化する
 
 `results[n].urls.raw` に以下のパラメータを付加する：
 
-| パラメータ | 用途 | 推奨値 |
+| パラメータ | 推奨値 | 用途 |
 |---|---|---|
-| `w` | 幅 | Hero: 1920 / コンテンツ: 800〜1200 / サムネイル: 400 |
-| `q` | 品質 | 80（重要な画像は90） |
-| `fm` | フォーマット | webp |
-| `fit` | フィット | crop |
+| `w` | Hero: 1920 / コンテンツ: 800〜1200 / サムネイル: 400 | 幅 |
+| `q` | 80（重要な画像は 90） | 品質 |
+| `fm` | webp | フォーマット |
+| `fit` | crop | フィット |
 
-**例:**
-```
-https://images.unsplash.com/photo-xxx?w=1200&q=80&fm=webp&fit=crop
-```
+例: `https://images.unsplash.com/photo-xxx?w=1200&q=80&fm=webp&fit=crop`
 
-### ステップ4: ダウンロード追跡（Unsplash API 規約必須）
+### ステップ 4: ダウンロード追跡（規約必須）
 
-画像URLを使用したら、`results[n].links.download_location` の値を使って追跡リクエストを送る：
+画像 URL を使用したら必ず実行する：
 
 ```bash
 bash .claude/skills/unsplash-image-finder/unsplash-track.sh "download_location の URL"
 ```
 
-`tracked` と出力されれば成功。失敗してもHTMLへの挿入は続行してよい。
+`tracked` と出力されれば成功。失敗しても処理を続行してよい。
 
-## フォールバック処理
+---
 
-1. **APIエラー / 検索結果なし**: 別キーワードで再検索（例: "coffee shop" → "cafe" → "coffee"）
-2. **再検索でも取得できない場合**: `https://cwm.toiee.jp/images/dummy.jpg` を使用
+## シーン A: 候補提示（ユーザーへの出力）
 
-## Unsplash利用規約
+候補をマークダウン表で提示する。各行に以下を含める：
 
-- 商用利用可（Unsplash License）
-- 推奨クレジット表記:
+- `results[n].links.html` へのクリッカブルリンク（ユーザーが画像を確認するために**必須**）
+- 最適化済み URL（コピー用）
+- 撮影者名
+
+**フォーマット例:**
+
+```
+| # | 内容 | 撮影者 | 最適化URL |
+|---|------|--------|-----------|
+| [1](https://unsplash.com/photos/xxx) | 辞書のクローズアップ | Romain Vignes | `https://images.unsplash.com/photo-xxx?w=1920&q=80&fm=webp&fit=crop` |
+```
+
+ユーザーが画像を選んだらステップ 4（追跡リクエスト）を実行する。
+
+---
+
+## シーン B: 内部利用（HTML への埋め込み）
+
+ユーザーへの候補提示は省略し、最適な画像を選んで HTML に直接組み込む。
+埋め込んだ時点でステップ 4（追跡リクエスト）を実行する。
+
+---
+
+## フォールバック
+
+1. **API エラー / 検索結果なし**: 別キーワードで再検索（例: "coffee shop" → "cafe" → "coffee"）
+2. **再検索でも取得できない**: `https://cwm.toiee.jp/images/dummy.jpg`（プレースホルダー）を使用し、ユーザーに通知する
+
+---
+
+## クレジット表記（推奨）
 
 ```html
 Photo by <a href="https://unsplash.com/@username?utm_source=claude1page&utm_medium=referral">撮影者名</a>
 on <a href="https://unsplash.com?utm_source=claude1page&utm_medium=referral">Unsplash</a>
 ```
 
-## 環境変数の設定方法
+---
 
-プロジェクトルートの `.env.local` に記載：
-
-```
-UNSPLASH_ACCESS_KEY=your_access_key_here
-```
-
-Access Key の取得: https://unsplash.com/developers → 「New Application」
+初回セットアップは [references/setup.md](references/setup.md) を参照。
