@@ -1,9 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(bash .claude/skills/unsplash-image-finder/unsplash-search.sh*)",
-      "Bash(bash .claude/skills/unsplash-image-finder/unsplash-track.sh*)",
-      "Bash(bash .claude/skills/unsplash-image-finder/unsplash-health-check.sh*)"
+      "Bash(bash *.claude/skills/unsplash-image-finder/unsplash-search.sh*)",
+      "Bash(bash *.claude/skills/unsplash-image-finder/unsplash-track.sh*)",
+      "Bash(bash *.claude/skills/unsplash-image-finder/unsplash-health-check.sh*)"
     ]
   }
 }
