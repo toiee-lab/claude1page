@@ -1,4 +1,4 @@
-# プロジェクトの名前
+# （ここにプロジェクト名を書いてください）
 
 ## プロジェクト概要
 
@@ -29,9 +29,18 @@
 - **Web ページの編集**: 編集箇所と依頼を理解して編集する
 - **Web ページのチェック**: 文法エラー、不要な記述、大きすぎる画像などがあれば改善方法をアドバイスする
 
+作成・編集したあとは、**必ずプレビューで表示を確認してから完了とする**（`.claude/launch.json` の `Static Site (serve)` を起動し、コンソールエラー・404・レイアウト崩れを確認する）。手順は `one-page-site-builder` スキルの「生成後の確認」にある。ユーザーに確認を丸投げしない。
+
 ## ワンページ Web サイトの生成方法
 
 ワンページサイトの作成・編集を行う際は、必ず **`one-page-site-builder` スキル**を使用すること。
 このスキルに、技術スタック（Tailwind CSS v4 / Animate.css / AOS / Lucide）、HTML 構造、固定ナビゲーション仕様、セクション構成、画像最適化方針などの能力がまとまっている。
 
 画像が必要な場合は **`unsplash-image-finder` スキル**を使って Unsplash から取得する。
+
+## ローカルでの表示確認
+
+- **Claude Code のプレビュー**: `.claude/launch.json` の `Static Site (serve)`（`npx serve public`、ポート 3000）
+- **VS Code の Live Server 拡張**: ポート 5500（`.vscode/settings.json` で `public` をルートに設定済み）
+
+どちらも `public/` を配信する。ポート番号が違うだけで役割は同じ。

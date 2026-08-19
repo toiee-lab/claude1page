@@ -7,19 +7,14 @@
 set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
 
 # .env.local から UNSPLASH_ACCESS_KEY を読み込む（未設定の場合のみ）
-if [ -z "${UNSPLASH_ACCESS_KEY:-}" ] && [ -f "${PROJECT_ROOT}/.env.local" ]; then
-  while IFS= read -r line || [ -n "$line" ]; do
-    [[ "$line" =~ ^[[:space:]]*# ]] && continue
-    [[ -z "${line// }" ]] && continue
-    key="${line%%=*}"
-    value="${line#*=}"
-    if [ "$key" = "UNSPLASH_ACCESS_KEY" ] && [ -z "${UNSPLASH_ACCESS_KEY:-}" ]; then
-      export UNSPLASH_ACCESS_KEY="$value"
-    fi
-  done < "${PROJECT_ROOT}/.env.local"
+if [ -f "${SCRIPT_DIR}/_load-env.sh" ]; then
+  # shellcheck source=_load-env.sh
+  source "${SCRIPT_DIR}/_load-env.sh"
+else
+  echo "error: _load-env.sh が見つかりません。アップデートスクリプトを実行してください。" >&2
+  exit 1
 fi
 
 # Step 1: APIキーの存在確認

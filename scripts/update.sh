@@ -36,6 +36,8 @@ rm -f .claude/agents/unsplash-image-finder.md
 rm -f .claude/skills/unsplash-image-finder/unsplash-search.js
 # one-page-site-builder references を SKILL.md に統合
 rm -rf .claude/skills/one-page-site-builder/references
+# Node.js 依存の完全撤廃で不要になったファイル
+rm -f package.json package-lock.json
 
 echo "  done"
 
@@ -45,6 +47,7 @@ mkdir -p .claude/skills/unsplash-image-finder
 mkdir -p .claude/skills/unsplash-image-finder/references
 mkdir -p .claude/skills/one-page-site-builder
 mkdir -p scripts
+mkdir -p .vscode
 echo "  done"
 
 # --- 最新ファイルのダウンロード ---
@@ -67,6 +70,7 @@ download ".rgignore"
 download ".env.local.example"
 download ".gitignore"
 download ".claude/skills/unsplash-image-finder/SKILL.md"
+download ".claude/skills/unsplash-image-finder/_load-env.sh"
 download ".claude/skills/unsplash-image-finder/unsplash-search.sh"
 download ".claude/skills/unsplash-image-finder/unsplash-health-check.sh"
 download ".claude/skills/unsplash-image-finder/unsplash-track.sh"
@@ -74,12 +78,13 @@ download ".claude/skills/unsplash-image-finder/references/setup.md"
 download ".claude/skills/one-page-site-builder/SKILL.md"
 download "scripts/update.sh"
 download "scripts/update.ps1"
-download "package.json"
-download "package-lock.json"
 download "README.md"
+download "LICENSE"
+download ".vscode/settings.json"
 
 # 実行権限を付与
 chmod +x scripts/update.sh 2>/dev/null || true
+chmod +x .claude/skills/unsplash-image-finder/_load-env.sh 2>/dev/null || true
 chmod +x .claude/skills/unsplash-image-finder/unsplash-search.sh 2>/dev/null || true
 chmod +x .claude/skills/unsplash-image-finder/unsplash-health-check.sh 2>/dev/null || true
 chmod +x .claude/skills/unsplash-image-finder/unsplash-track.sh 2>/dev/null || true
@@ -90,7 +95,11 @@ echo -e "${GREEN}========================================${NC}"
 echo -e "${GREEN}  ✅ アップデート完了！${NC}"
 echo -e "${GREEN}========================================${NC}"
 echo ""
-echo -e "${YELLOW}⚠️  注意:${NC}"
-echo "  CLAUDE.md をカスタマイズしていた場合は、"
-echo "  git diff で変更を確認し、必要に応じて再反映してください。"
+echo -e "${YELLOW}⚠️  注意: 以下のファイルは最新版で上書きされます${NC}"
+echo "    CLAUDE.md"
+echo "    .claude/settings.json"
+echo "    .gitignore"
+echo "    .vscode/settings.json"
+echo "  これらをカスタマイズしていた場合は、git diff で変更を確認し、"
+echo "  必要に応じてご自身の変更を再反映してください。"
 echo ""

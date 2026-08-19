@@ -10,6 +10,14 @@ This is an unofficial, community-created project and is not affiliated with, end
 
 ## 更新履歴
 
+- 2026年 8月19日:
+  - `update.sh` / `update.ps1` が削除済みの `package.json` / `package-lock.json` を取得しようとして毎回ダウンロード失敗していた問題を修正
+  - アップデート対象に `LICENSE` と `.vscode/settings.json` を追加。上書きされるファイルを完了メッセージに明記
+  - 3つの Unsplash スクリプトに重複していた `.env.local` の読み込み処理を `_load-env.sh` に集約。Windows で作成した `.env.local`（CRLF 改行）やクォート付きの記述でも API キーが正しく読めるように修正
+  - `one-page-site-builder` スキルを見直し: 「最低8セクション」の数値ノルマを撤廃（水増し防止）、ナビ仕様を「意図＋必須要件」に整理、全ライブラリの CDN タグと記述位置を明記、**生成後にプレビューで自己確認する手順を追加**
+  - `unsplash-image-finder` スキルの description を日本語化し、既定値と同じで無意味だった `user-invocable: true` を削除
+  - README のファイル構成図を実態に合わせ、ローカル表示確認とライセンスの記載を追加
+
 - 2026年 4月13日:
   - `one-page-site-builder` スキルの `references/` 配下4ファイル（tech-stack・navigation-spec・content-structure・image-optimization）を `SKILL.md` に統合・集約
   - スキルファイルの構成をシンプル化し、参照ファイルなしで完結するように刷新
@@ -93,7 +101,10 @@ if (!(Test-Path $PROFILE)) { New-Item -Path $PROFILE -ItemType File -Force }; Ad
 ```
 
 あるいは、APIキー設定用のファイルを作成し、中身を編集してください。見ればわかります。
+
+```bash
 cp .env.local.example .env.local
+```
 
 ## 準備
 
@@ -163,28 +174,41 @@ Webページを作成してください。
 
 ```
 claude1page/
-├── public/              # Cloudflare Pages 公開用ディレクトリ
-│   ├── index.html      # メインページ
-│   └── assets/         # CSS、JS、画像などの静的ファイル
+├── public/             # Cloudflare Pages 公開用ディレクトリ（成果物はここに作られる）
+│   └── assets/         # CSS、JS、画像、フォントなどの静的ファイル
 ├── project-docs/       # プロジェクト関連ドキュメント
 ├── scripts/            # アップデートスクリプト
-│   ├── update.sh      # macOS/Linux用
-│   └── update.ps1     # Windows用
+│   ├── update.sh       # macOS/Linux用
+│   └── update.ps1      # Windows用
 ├── .claude/
-│   ├── settings.json  # Claude Code設定
-│   ├── launch.json    # ローカル開発サーバー設定
-│   └── skills/        # スキル定義
-│       ├── unsplash-image-finder/
-│       │   ├── unsplash-search.sh        # 画像検索スクリプト
-│       │   ├── unsplash-health-check.sh  # 動作確認スクリプト
-│       │   ├── unsplash-track.sh         # ダウンロード記録スクリプト
-│       │   └── references/setup.md       # APIキー設定ガイド
-│       └── one-page-site-builder/
-│           └── SKILL.md                  # ワンページサイト生成スキル（技術仕様・ナビ仕様など統合）
-├── CLAUDE.md          # Claude Code用の指示書
-├── .env.local.example # API設定テンプレート
-└── README.md          # このファイル
+│   ├── settings.json   # Claude Code設定（権限の許可リスト）
+│   ├── launch.json     # プレビュー用サーバー設定（ポート3000）
+│   └── skills/         # スキル定義
+│       ├── one-page-site-builder/
+│       │   └── SKILL.md                  # ワンページサイト生成スキル（技術仕様・ナビ仕様・生成後の確認）
+│       └── unsplash-image-finder/
+│           ├── SKILL.md                  # 画像検索スキル
+│           ├── _load-env.sh              # APIキー読み込みの共通処理
+│           ├── unsplash-search.sh        # 画像検索スクリプト
+│           ├── unsplash-health-check.sh  # 動作確認スクリプト
+│           ├── unsplash-track.sh         # ダウンロード記録スクリプト
+│           └── references/setup.md       # APIキー設定ガイド
+├── .vscode/
+│   └── settings.json   # VS Code Live Server 設定（ポート5500）
+├── CLAUDE.md           # Claude Code用の指示書
+├── .env.local.example  # API設定テンプレート
+├── LICENSE             # MIT License
+└── README.md           # このファイル
 ```
+
+## ローカルでの表示確認
+
+作ったページをブラウザで確認する方法は2つあります。どちらも `public/` を配信します。
+
+- **Claude Code のプレビュー機能**: `.claude/launch.json` の `Static Site (serve)` を使います（`npx serve public`、http://localhost:3000 ）。Claude 自身がここでページを開いて、コンソールエラーや画像のリンク切れを自分で確認します
+- **VS Code の Live Server 拡張**: `.vscode/settings.json` で `public` をルートに設定済みです（http://localhost:5500 ）
+
+ポート番号が違うだけで役割は同じです。両方を同時に使っても構いません。
 
 ## Cloudflare Pagesでの公開
 
@@ -222,4 +246,13 @@ irm https://raw.githubusercontent.com/toiee-lab/claude1page/main/scripts/update.
 
 ソースコード管理などで、変更されたファイルをチェックしてください。もし、あなたが意図的に変更したものを上書きしているなら、以前のものと今のものを比較しながら、調整してください。
 
-特に、 **CLAUDE.md ファイルをカスタマイズしている場合は、ご自身の変更を再反映** してください。
+アップデートで上書きされるのは以下のファイルです。カスタマイズしている場合は、ご自身の変更を再反映してください。
+
+- `CLAUDE.md`
+- `.claude/settings.json`
+- `.gitignore`
+- `.vscode/settings.json`
+
+## ライセンス
+
+[MIT License](LICENSE)

@@ -1,7 +1,6 @@
 ---
 name: unsplash-image-finder
-description: This skill should be used when searching for or inserting images from Unsplash into web pages. Triggered when the user asks to find photos or images, when hero sections, backgrounds, or visual content are needed during page creation, or when the user mentions Unsplash, photos, or visual search.
-user-invocable: true
+description: Unsplash から画像を検索し、Web ページ用に最適化した URL を提供します。「画像を探して」「写真を入れて」などの依頼、ヒーローセクション・背景・ビジュアル素材が必要になったとき、Unsplash・写真・画像検索に言及されたときに使います。
 ---
 
 # Unsplash Image Finder Skill

@@ -23,7 +23,9 @@ Write-Host "古いファイルを削除中..." -ForegroundColor Yellow
 $oldFiles = @(
     "scripts\install_pkgs.sh",
     ".claude\agents\unsplash-image-finder.md",
-    ".claude\skills\unsplash-image-finder\unsplash-search.js"
+    ".claude\skills\unsplash-image-finder\unsplash-search.js",
+    "package.json",
+    "package-lock.json"
 )
 $oldDirs = @(
     ".claude\skills\one-page-site-builder\references"
@@ -41,7 +43,7 @@ Write-Host "  done"
 # --- ディレクトリ作成 ---
 Write-Host "ディレクトリを準備中..." -ForegroundColor Yellow
 
-$dirs = @(".claude\skills\unsplash-image-finder", ".claude\skills\unsplash-image-finder\references", ".claude\skills\one-page-site-builder", "scripts")
+$dirs = @(".claude\skills\unsplash-image-finder", ".claude\skills\unsplash-image-finder\references", ".claude\skills\one-page-site-builder", "scripts", ".vscode")
 foreach ($d in $dirs) {
     if (-not (Test-Path $d)) { New-Item -ItemType Directory -Path $d -Force | Out-Null }
 }
@@ -72,6 +74,7 @@ $files = @(
     ".env.local.example",
     ".gitignore",
     ".claude\skills\unsplash-image-finder\SKILL.md",
+    ".claude\skills\unsplash-image-finder\_load-env.sh",
     ".claude\skills\unsplash-image-finder\unsplash-search.sh",
     ".claude\skills\unsplash-image-finder\unsplash-health-check.sh",
     ".claude\skills\unsplash-image-finder\unsplash-track.sh",
@@ -79,9 +82,9 @@ $files = @(
     ".claude\skills\one-page-site-builder\SKILL.md",
     "scripts\update.sh",
     "scripts\update.ps1",
-    "package.json",
-    "package-lock.json",
-    "README.md"
+    "README.md",
+    "LICENSE",
+    ".vscode\settings.json"
 )
 
 foreach ($file in $files) {
@@ -94,7 +97,11 @@ Write-Host "========================================" -ForegroundColor Green
 Write-Host "  ✅ アップデート完了！" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Green
 Write-Host ""
-Write-Host "⚠️  注意:" -ForegroundColor Yellow
-Write-Host "  CLAUDE.md をカスタマイズしていた場合は、"
-Write-Host "  git diff で変更を確認し、必要に応じて再反映してください。"
+Write-Host "⚠️  注意: 以下のファイルは最新版で上書きされます" -ForegroundColor Yellow
+Write-Host "    CLAUDE.md"
+Write-Host "    .claude\settings.json"
+Write-Host "    .gitignore"
+Write-Host "    .vscode\settings.json"
+Write-Host "  これらをカスタマイズしていた場合は、git diff で変更を確認し、"
+Write-Host "  必要に応じてご自身の変更を再反映してください。"
 Write-Host ""
