@@ -17,6 +17,10 @@ This is an unofficial, community-created project and is not affiliated with, end
   - `one-page-site-builder` スキルを見直し: 「最低8セクション」の数値ノルマを撤廃（水増し防止）、ナビ仕様を「意図＋必須要件」に整理、全ライブラリの CDN タグと記述位置を明記、**生成後にプレビューで自己確認する手順を追加**
   - `unsplash-image-finder` スキルの description を日本語化し、既定値と同じで無意味だった `user-invocable: true` を削除
   - README のファイル構成図を実態に合わせ、ローカル表示確認とライセンスの記載を追加
+  - Lucide をメジャーバージョン **v1.32.0** に更新
+  - ブランドロゴ（SNSアイコン等）は **Simple Icons** から取得する方式に変更。Lucide 公式のガイド（[Brand Logo Statement](https://lucide.dev/brand-logo-statement)）に従った対応
+  - `brand-icon.sh` を追加。Simple Icons の SVG を `fill="currentColor"` 付きで取り出し、HTML に直接貼れる形で出力する（元データには `fill` が無く、そのまま貼ると黒一色になるため）
+  - v1 で名称が変わった Lucide アイコンの対応表を `one-page-site-builder` スキルに追記
 
 - 2026年 4月13日:
   - `one-page-site-builder` スキルの `references/` 配下4ファイル（tech-stack・navigation-spec・content-structure・image-optimization）を `SKILL.md` に統合・集約

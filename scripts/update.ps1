@@ -80,6 +80,7 @@ $files = @(
     ".claude\skills\unsplash-image-finder\unsplash-track.sh",
     ".claude\skills\unsplash-image-finder\references\setup.md",
     ".claude\skills\one-page-site-builder\SKILL.md",
+    ".claude\skills\one-page-site-builder\brand-icon.sh",
     "scripts\update.sh",
     "scripts\update.ps1",
     "README.md",

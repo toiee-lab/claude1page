@@ -76,6 +76,7 @@ download ".claude/skills/unsplash-image-finder/unsplash-health-check.sh"
 download ".claude/skills/unsplash-image-finder/unsplash-track.sh"
 download ".claude/skills/unsplash-image-finder/references/setup.md"
 download ".claude/skills/one-page-site-builder/SKILL.md"
+download ".claude/skills/one-page-site-builder/brand-icon.sh"
 download "scripts/update.sh"
 download "scripts/update.ps1"
 download "README.md"
@@ -84,6 +85,7 @@ download ".vscode/settings.json"
 
 # 実行権限を付与
 chmod +x scripts/update.sh 2>/dev/null || true
+chmod +x .claude/skills/one-page-site-builder/brand-icon.sh 2>/dev/null || true
 chmod +x .claude/skills/unsplash-image-finder/_load-env.sh 2>/dev/null || true
 chmod +x .claude/skills/unsplash-image-finder/unsplash-search.sh 2>/dev/null || true
 chmod +x .claude/skills/unsplash-image-finder/unsplash-health-check.sh 2>/dev/null || true

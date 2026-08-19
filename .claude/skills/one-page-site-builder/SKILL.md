@@ -59,15 +59,44 @@ description: 指定された技術スタックや、作成指針に従ってHTML
 <script>AOS.init();</script>
 ```
 
-**Lucide v0.536.0**（アイコン / https://lucide.dev/ ）
+**Lucide v1.32.0**（一般アイコン / https://lucide.dev/icons ）
 ```html
 <!-- </body> の直前に -->
-<script src="https://unpkg.com/lucide@0.536.0/dist/umd/lucide.min.js"></script>
+<script src="https://unpkg.com/lucide@1.32.0/dist/umd/lucide.min.js"></script>
 <script>lucide.createIcons();</script>
 ```
 アイコンは `<i data-lucide="menu"></i>` のように書く。DOM を後から差し替えたら `lucide.createIcons()` を再実行する。
 
-**このバージョンを勝手に上げないこと。** v1 系ではブランドアイコン（`instagram` / `facebook` / `twitter` / `youtube` など）が本体から削除されており、フッターの SNS リンクが空欄になる（2026-08 に v1.32.0 で実機確認済み）。上げる場合は「生成後の確認」で、使うアイコンが全て描画されることを実地で確かめてから行う。
+**v1 で名前が変わったアイコンがある。** 記憶で書かず、迷ったら https://lucide.dev/icons で確認すること。主な変更:
+
+| v0 までの名前 | v1 での名前 |
+|---|---|
+| `align-center` / `align-left` など | `text-align-center` / `text-align-left` |
+| `smile` / `frown` / `angry` | `face-smiling` / `face-slightly-frowning` / `face-angry` |
+| `indent-increase` / `indent-decrease` | `list-indent-increase` / `list-indent-decrease` |
+| `wrap-text` | `text-wrap` |
+| `fingerprint` | `fingerprint-pattern` |
+| `file-check-2` など `-2` 系 | `file-check-corner` など `-corner` 系 |
+
+**ブランドロゴ（SNS等）は Lucide にはない。** 次項の Simple Icons を使うこと。
+
+**Simple Icons v16**（ブランドロゴ / https://simpleicons.org/ ）
+
+Lucide は商標・意匠上の理由でブランドロゴを持たず、公式に Simple Icons を案内している（https://lucide.dev/brand-logo-statement ）。CDN で読み込むライブラリではなく、**SVG を1つずつ HTML に直接埋め込んで使う**。
+
+取得は次のスクリプトで行う（プロジェクトルートから実行）:
+```bash
+bash .claude/skills/one-page-site-builder/brand-icon.sh instagram facebook line
+```
+
+出力された `<svg>` をそのまま HTML に貼る。スクリプトは `fill="currentColor"` を付けて出力するので、**親要素の文字色をそのまま継承する**（Simple Icons の元データには `fill` が無く、素のまま貼ると黒一色で描画され、暗い背景のフッターでは見えなくなる）。
+
+- サイズは `class="w-5 h-5"` を変更して調整する
+- **`aria-hidden="true"` を付けた SVG は、必ず囲む `<a>` 側に `aria-label` を付けること**（付け忘れるとリンクの内容が読み上げられない）
+- slug が分からない・404 になる場合は https://simpleicons.org/ で検索する。ブランド名の変更でslugが変わることがある（例: `twitter` → `x`）
+- **ブランドロゴは各社の商標**。改変（色替え・変形・一部切り出し）はせず、各社のブランドガイドラインに従って使うこと
+
+Lucide は線（stroke）、Simple Icons は塗り（fill）で描かれている。並べて置くと Simple Icons のほうが重く見えるので、必要ならサイズを一段小さくして視覚的な重さを揃える。
 
 ### HTML
 - セマンティック要素・各セクションにID・メタタグ（description, keywords, og:image等）・ファビコン
@@ -136,6 +165,7 @@ HTML を書いて終わりにしない。**ユーザーに「ブラウザで確�
    - デスクトップ幅・モバイル幅の両方でレイアウトが崩れていないか
    - 固定ナビがスクロール前後で切り替わるか
    - モバイルメニューが開閉し、`aria-expanded` が更新されるか
-   - Lucide アイコンが描画されているか（`data-lucide` が空のままになっていないか）
+   - Lucide アイコンが描画されているか（`<i data-lucide>` が `<svg>` に置き換わらず残っていたら名前が間違っている。コンソールにも警告が出る）
+   - ブランドアイコン（Simple Icons）が意図した色で見えているか（黒のまま暗い背景に溶けていないか）
 3. 問題があればソースを修正し、再確認する
 4. 直せなかった点があれば、何がどう残っているかを明示してユーザーに伝える
