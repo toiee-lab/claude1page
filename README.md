@@ -10,6 +10,12 @@ This is an unofficial, community-created project and is not affiliated with, end
 
 ## 更新履歴
 
+- 2026年 9月17日:
+  - `one-page-site-builder` スキルの Lucide v1 改名表を修正。表にあった `face-smiling` / `text-align-left` は v1.32.0 に存在せず描画されない名前だった（実機確認）。旧名がエイリアスとして残っていることが分かったため、表を撤去し「旧名のまま使ってよい」旨に置き換え
+  - `one-page-site-builder` スキルに「作成前の確認（インタビュー）」を追加。新規作成時に対象読者・ゴール・印象が不明なら、おすすめ案を 1 つ添えて 1 回にまとめて確認する
+  - `.claude/settings.json` に `npx serve public` の実行許可を追加（ターミナル版 Claude Code で「生成後の確認」を行う際に許可プロンプトで止まらないように）
+  - CLAUDE.md の技術スタック列挙を廃止し、スキル参照に一本化（Simple Icons 移行時に CLAUDE.md 側が更新漏れしていたため）
+
 - 2026年 8月19日:
   - `update.sh` / `update.ps1` が削除済みの `package.json` / `package-lock.json` を取得しようとして毎回ダウンロード失敗していた問題を修正
   - アップデート対象に `LICENSE` と `.vscode/settings.json` を追加。上書きされるファイルを完了メッセージに明記
